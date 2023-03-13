@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, render_template, request
 from keras.models import load_model
 from keras.utils import load_img, img_to_array
 import numpy as np
@@ -34,7 +34,10 @@ def get_output():
 		img_path = "static/" + img.filename
 		img.save(img_path)
 		p = predict_label(img_path)
-	return render_template("index.html", prediction = p, img_path = img_path)
+		print(jsonify(p))
+		return jsonify(p)
+
+	# return render_template("index.html", prediction = p, img_path = img_path)
 
 if __name__ == '__main__':
 	# app.run(debug = True)
