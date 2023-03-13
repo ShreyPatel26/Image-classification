@@ -1,6 +1,6 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, request
 from keras.models import load_model
-from keras.utils import load_img, img_to_array
+from keras.utils import load_img
 import numpy as np
 app = Flask(__name__)
 
@@ -23,22 +23,29 @@ def predict_label(img_path):
 	else:
 		return "diseased"
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/", methods=['GET'])
 def main():
-	return render_template("index.html")
+	return {'message': 'Welcome to our Project!'}
 
-@app.route("/submit", methods = ['GET', 'POST'])
-def get_output():
-	if request.method == 'POST':
-		img = request.files['my_image']
-		img_path = "static/" + img.filename
-		img.save(img_path)
-		p = predict_label(img_path)
-		print(jsonify(p))
-		return jsonify(p)
 
-	# return render_template("index.html", prediction = p, img_path = img_path)
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    # Check if the POST request has a file part.
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part in the request'}), 400
+    
+    file = request.files['file']
+    
+    # If the user does not select a file, the browser submits an empty file.
+    if file.filename == '':
+        return jsonify({'error': 'No file selected'}), 400
+    
+    # Save the file to disk.
+    file.save(file.filename)
+    p = predict_label(file.filename)
+
+    return jsonify({'message': p}), 200
+
 
 if __name__ == '__main__':
-	# app.run(debug = True)
     app.run(threaded=True, port=5000)
