@@ -9,4 +9,5 @@ Flask
 Keras
 numpy
 gunicorn==20.1.0
-tensorflow==2.12.0rc1
+#tensorflow==2.12.0rc1
+tensorflow-cpu==2.12.0rc1
