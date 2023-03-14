@@ -2,8 +2,15 @@ from flask import Flask, jsonify, request
 from keras.models import load_model
 from keras.utils import load_img
 import numpy as np
-app = Flask(__name__)
+from flask_cors import CORS
 
+app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": ["http://localhost",
+                                          "http://localhost:8080",
+                                          "https://myapp.herokuapp.com",
+                                          "http://www.e-hospital.ca/gastroImagePrediction",
+                                          "http://www.e-hospital.ca",
+                                          "http://localhost:5000"]}})
 
 model = load_model('model.h5')
 

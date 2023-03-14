@@ -11,3 +11,4 @@ numpy
 gunicorn==20.1.0
 #tensorflow-cpu==2.12.0rc1
 tensorflow-cpu
+flask-cors
