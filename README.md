@@ -1,1 +1,1 @@
-# Image-classification
+# Cancer Image detection
